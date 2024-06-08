@@ -3,7 +3,7 @@ import styles from "../styles/signin.module.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const signin = () => {
+const SignIn = () => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -69,4 +69,4 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default SignIn;

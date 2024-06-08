@@ -1,44 +1,100 @@
+/** @format */
+
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import styles from "../styles/signup.module.css";
 
-const signup = () => {
+const SignUp = () => {
   const [start, setStart] = useState(0);
-  
-  const [registration, setRegistration] = useState({
-    personalInfo: {
-      name: "",
-      age: "",
-      email:'',
-      sex: "",
-      aadhar: "",
-      pan: "",
-      qualification: "",
-      phone: "",
-    },
-    bankDetails: {
-      bankName: "",
-      accountNumber: "",
-      ifsc_code: "",
-      image: "",
-      income: 750000,
-      occupation: "",
-      company: "",
-    },
-    daughters: {
-      name: "",
-      age: "",
-      sex: "",
-      aadhaar: "",
-      highestqualificattion: "",
-      university: "",
-      passingyear: "",
-      bank: "",
-      account: "",
-      ifsc: "",
-    },
-  });
+
+  const getRandomInt = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1)) + min;
+  const getRandomElement = (arr) => arr[getRandomInt(0, arr.length - 1)];
+  const getRandomString = (length) =>
+    Math.random()
+      .toString(36)
+      .substring(2, 2 + length);
+  const getRandomEmail = () =>
+    `${getRandomString(5)}@${getRandomString(5)}.com`;
+
+  const generateRandomRegistration = () => {
+    const sexes = ["Male", "Female", "Other"];
+    const qualifications = ["High School", "Bachelor's", "Master's", "PhD"];
+    const banks = ["Bank A", "Bank B", "Bank C"];
+
+    return {
+      personalInfo: {
+        name: getRandomString(10),
+        age: getRandomInt(18, 60),
+        email: getRandomEmail(),
+        sex: getRandomElement(sexes),
+        aadhar: getRandomString(12),
+        pan: getRandomString(10).toUpperCase(),
+        qualification: getRandomElement(qualifications),
+        phone: getRandomString(10),
+      },
+      bankDetails: {
+        bankName: getRandomElement(banks),
+        accountNumber: getRandomString(12),
+        ifsc_code: getRandomString(11).toUpperCase(),
+        image: `https://example.com/image/${getRandomString(10)}`,
+        income: getRandomInt(10000, 1000000),
+        occupation: getRandomString(15),
+        company: getRandomString(10),
+      },
+      daughters: {
+        name: getRandomString(10),
+        age: getRandomInt(1, 30),
+        sex: "Female",
+        aadhaar: getRandomString(12),
+        highestqualificattion: getRandomElement(qualifications),
+        university: getRandomString(15),
+        passingyear: getRandomInt(2000, 2024),
+        bank: getRandomElement(banks),
+        account: getRandomString(12),
+        ifsc: getRandomString(11).toUpperCase(),
+      },
+    };
+  };
+
+  const [registration, setRegistration] = useState(
+    generateRandomRegistration()
+  );
+
+  // const [registration, setRegistration] = useState({
+  //   personalInfo: {
+  //     name: "",
+  //     age: "",
+  //     email:'',
+  //     sex: "",
+  //     aadhar: "",
+  //     pan: "",
+  //     qualification: "",
+  //     phone: "",
+  //   },
+  //   bankDetails: {
+  //     bankName: "",
+  //     accountNumber: "",
+  //     ifsc_code: "",
+  //     image: "",
+  //     income: 750000,
+  //     occupation: "",
+  //     company: "",
+  //   },
+  //   daughters: {
+  //     name: "",
+  //     age: "",
+  //     sex: "",
+  //     aadhaar: "",
+  //     highestqualificattion: "",
+  //     university: "",
+  //     passingyear: "",
+  //     bank: "",
+  //     account: "",
+  //     ifsc: "",
+  //   },
+  // });
 
   const { personalInfo, bankDetails, daughters } = registration;
 
@@ -171,10 +227,9 @@ const signup = () => {
   // update page as starts changes.
   useEffect(() => {}, [start]);
 
-
   // sbumit handler
   const handleRegistration = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     console.log("I am clicked, lets run the function.");
     console.log(registration);
   };
@@ -187,7 +242,9 @@ const signup = () => {
           {start === 0 && (
             <>
               {personal?.map((item, idx) => (
-                <div key={idx} className={styles.container}>
+                <div
+                  key={idx}
+                  className={styles.container}>
                   <label htmlFor={item.name}>{item.name}</label>
                   <input
                     type="text"
@@ -207,7 +264,9 @@ const signup = () => {
           {start === 1 && (
             <>
               {bank?.map((item, idx) => (
-                <div key={idx} className={styles.container}>
+                <div
+                  key={idx}
+                  className={styles.container}>
                   <label htmlFor={item.bank}>{item.bank}</label>
                   <input
                     type="text"
@@ -227,7 +286,9 @@ const signup = () => {
           {start === 2 && (
             <>
               {daughter?.map((item, idx) => (
-                <div key={idx} className={styles.container}>
+                <div
+                  key={idx}
+                  className={styles.container}>
                   <label htmlFor={item.name}>{item.name}</label>
                   <input
                     type="text"
@@ -250,17 +311,21 @@ const signup = () => {
           <button
             className={styles.button}
             disabled={start === 0}
-            onClick={handlePrev}
-          >
+            onClick={handlePrev}>
             {" "}
             <FaArrowLeft className={styles.icon} /> Previous
           </button>
           {start == 2 ? (
-            <button className={styles.button} type="submit" onClick={handleRegistration}>
+            <button
+              className={styles.button}
+              type="submit"
+              onClick={handleRegistration}>
               Submit
             </button>
           ) : (
-            <button className={styles.button} onClick={handleNext}>
+            <button
+              className={styles.button}
+              onClick={handleNext}>
               Next <FaArrowRight className={styles.icon1} />
             </button>
           )}
@@ -270,4 +335,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default SignUp;
